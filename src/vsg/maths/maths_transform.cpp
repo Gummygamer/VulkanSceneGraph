@@ -318,16 +318,15 @@ t_sphere<T> t_computeFrustumBound(const t_mat4<T>& m)
         if (new_r > r) r = new_r;
     };
 
-    //
-    // TODO : depth range should probably be 0 to 1 for Vulkan, rather than -1 to 1 for OpenGL.
-    //
+    // Vulkan NDC uses a depth range of 0 to 1 while OpenGL uses -1 to 1.
+    // Use the Vulkan convention here as it matches the rest of the library.
 
     // compute a2, the radius squared of the near plane relative to the near planes mid point
-    vec_type near_center = inv_m * vec_type(0.0, 0.0, -1.0);
-    value_type a2 = length2(inv_m * vec_type(-1.0, -1.0, -1.0) - near_center);
-    update_radius2(a2, near_center, inv_m * vec_type(1.0, -1.0, -1.0));
-    update_radius2(a2, near_center, inv_m * vec_type(1.0, 1.0, -1.0));
-    update_radius2(a2, near_center, inv_m * vec_type(-1.0, 1.0, -1.0));
+    vec_type near_center = inv_m * vec_type(0.0, 0.0, 0.0);
+    value_type a2 = length2(inv_m * vec_type(-1.0, -1.0, 0.0) - near_center);
+    update_radius2(a2, near_center, inv_m * vec_type(1.0, -1.0, 0.0));
+    update_radius2(a2, near_center, inv_m * vec_type(1.0, 1.0, 0.0));
+    update_radius2(a2, near_center, inv_m * vec_type(-1.0, 1.0, 0.0));
 
     // compute b2, the radius squared of the far plane relative to the far planes mid point
     vec_type far_center = inv_m * vec_type(0.0, 0.0, 1.0);

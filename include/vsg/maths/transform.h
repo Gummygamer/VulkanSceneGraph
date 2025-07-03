@@ -253,10 +253,13 @@ namespace vsg
     /// assumes matrix has no skew or perspective components
     extern VSG_DECLSPEC bool decompose(const ldmat4& m, ldvec3& translation, ldquat& rotation, ldvec3& scale);
 
-    /// compute the bounding sphere that encloses a frustum defined by specified float ModelViewMatrixProjection
+    /// compute the bounding sphere that encloses a frustum defined by the given
+    /// float ModelViewProjection matrix. Assumes clip space depth range of 0..1
+    /// as used by Vulkan.
     extern VSG_DECLSPEC sphere computeFrustumBound(const mat4& m);
 
-    /// compute the bounding sphere that encloses a frustum defined by specified double ModelViewMatrixProjection
+    /// compute the bounding sphere that encloses a frustum defined by the given
+    /// double ModelViewProjection matrix. Assumes clip space depth range of 0..1.
     extern VSG_DECLSPEC dsphere computeFrustumBound(const dmat4& m);
 
     /// visitor that computes a transform matrix, accumulating the result in order of objects visited
